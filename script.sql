@@ -23,9 +23,9 @@ CREATE TABLE Reservation (
     dateDebut date,
     dateFin date,
     employeeId int,
-    salleId int,
+    saleId int,
     FOREIGN KEY (employeeId) REFERENCES Employees(id),
-    FOREIGN KEY (salleId) REFERENCES Salles(id)
+    FOREIGN KEY (saleId) REFERENCES Salles(id)
 
     
 );
@@ -35,6 +35,13 @@ CREATE TABLE Equipements(
     salleId int,
   FOREIGN KEY (salleId) REFERENCES Salles(id)
 );
+--modifier le nom de table reservation a reservations
+RENAME TABLE reservation TO reservations;
+
+-- modifier le nom de colonne
+ALTER TABLE reservations
+CHANGE COLUMN saleId salleId INT;
+
 
 --la creation des index
 
@@ -44,14 +51,16 @@ CREATE INDEX idx_salle_Id ON sales(id);
 
 CREATE INDEX idx_reservation_Id ON reservation(id);
 
-CREATE INDEX idx_employee_Id_reservation ON reservation(employeeId);
+CREATE INDEX idx_employee_Id_reservation ON reservations(employeeId);
 
-CREATE INDEX idx_salle_Id_reservation ON reservation(saleId);
+CREATE INDEX idx_salle_Id_reservations ON reservations(saleId);
 
 CREATE INDEX idx_equipement_Id ON equipements(id);
 
 CREATE INDEX idx_salle_Id_equipements ON equipements(saleId);
 
+--Vérification de l'intégrité
+CHECK TABLE reservations;
 
 
 
@@ -73,8 +82,8 @@ INSERT INTO employees (nom, email, departement, post)
  ('salle 3', 27),
  ('salle 4',58);
 
- --table reservations
-INSERT INTO reservation (dateDebut,dateFin,employeeId,salleId)
+ --table reservationss
+INSERT INTO reservations (dateDebut,dateFin,employeeId,salleId)
  VALUES
  ('2024-12-12','2024-12-13',1,1),
  ('2024-12-15','2024-12-17',2,1),
@@ -95,6 +104,14 @@ INSERT INTO reservation (dateDebut,dateFin,employeeId,salleId)
  --Joins
  SELECT e.nom, r.dateDebut, r.dateFin, s.nom
 FROM employees AS e
-JOIN reservation AS r ON e.id = r.employeeId
+JOIN reservations AS r ON e.id = r.employeeId
 JOIN salles AS s ON r.salleId = s.id
 WHERE e.nom = "aicha" AND s.nom = "salle 3";
+
+--- modifier la capacité de la salle
+UPDATE salles
+SET capacite = 5
+WHERE nom='salle 3';
+
+--la suppression
+DELETE eq FROM equipements AS eq JOIN Salles AS s ON eq.saleId = s.id JOIN Reservations AS r ON s.id = r.saleId WHERE s.capacite = 5;
