@@ -12,7 +12,7 @@ CREATE TABLE Employees (
     post VARCHAR(50)
     
 );
-CREATE TABLE Sales (
+CREATE TABLE Salles (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom VARCHAR (50),
     capacite int (100)
@@ -23,18 +23,37 @@ CREATE TABLE Reservation (
     dateDebut date,
     dateFin date,
     employeeId int,
-    saleId int,
+    salleId int,
     FOREIGN KEY (employeeId) REFERENCES Employees(id),
-    FOREIGN KEY (saleId) REFERENCES Sales(id)
+    FOREIGN KEY (salleId) REFERENCES Salles(id)
 
     
 );
 CREATE TABLE Equipements(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   nom VARCHAR(50),
-    saleId int,
-  FOREIGN KEY (saleId) REFERENCES Sales(id)
+    salleId int,
+  FOREIGN KEY (salleId) REFERENCES Salles(id)
 );
+
+--la creation des index
+
+CREATE INDEX idx_employee_Id ON employees(id);
+
+CREATE INDEX idx_salle_Id ON sales(id);
+
+CREATE INDEX idx_reservation_Id ON reservation(id);
+
+CREATE INDEX idx_employee_Id_reservation ON reservation(employeeId);
+
+CREATE INDEX idx_salle_Id_reservation ON reservation(saleId);
+
+CREATE INDEX idx_equipement_Id ON equipements(id);
+
+CREATE INDEX idx_salle_Id_equipements ON equipements(saleId);
+
+
+
 
 --l'insertion de donnes sur les tables
 
@@ -55,7 +74,7 @@ INSERT INTO employees (nom, email, departement, post)
  ('salle 4',58);
 
  --table reservations
-INSERT INTO reservation (dateDebut,dateFin,employeeId,saleId)
+INSERT INTO reservation (dateDebut,dateFin,employeeId,salleId)
  VALUES
  ('2024-12-12','2024-12-13',1,1),
  ('2024-12-15','2024-12-17',2,1),
@@ -63,7 +82,7 @@ INSERT INTO reservation (dateDebut,dateFin,employeeId,saleId)
  
  --table equipements
 
- INSERT INTO equipements (nom,saleId)
+ INSERT INTO equipements (nom,salleId)
  VALUES
  ('chaise',1),
  ('table',1),
@@ -77,5 +96,5 @@ INSERT INTO reservation (dateDebut,dateFin,employeeId,saleId)
  SELECT e.nom, r.dateDebut, r.dateFin, s.nom
 FROM employees AS e
 JOIN reservation AS r ON e.id = r.employeeId
-JOIN sales AS s ON r.saleId = s.id
+JOIN salles AS s ON r.salleId = s.id
 WHERE e.nom = "aicha" AND s.nom = "salle 3";
