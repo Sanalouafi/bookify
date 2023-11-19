@@ -18,3 +18,4 @@ In this repository, you can find the following:
   + SQL Script: Includes SQL queries for database operations.
 
  +  ERD Schema in PDF format: Illustrates the Entity-Relationship Diagram for the database schema.
+ +  report file.
