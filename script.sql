@@ -129,3 +129,14 @@ FROM salles;
 SELECT MAX(capacite)
 FROM salles;
 
+------group by
+Select departement,Count(*) As NBEmp
+From employees
+Group By departement;
+
+---having
+Select departement,Count(*) As NBEmp
+From employees
+Group By departement
+Having Count(*)=2;
+
