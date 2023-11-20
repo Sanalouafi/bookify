@@ -115,3 +115,17 @@ WHERE nom='salle 3';
 
 --la suppression
 DELETE eq FROM equipements AS eq JOIN Salles AS s ON eq.saleId = s.id JOIN Reservations AS r ON s.id = r.saleId WHERE s.capacite = 5;
+
+----order by(ASC DESC)
+
+SELECT * FROM employees
+ORDER BY nom ASC;
+SELECT * FROM employees
+ORDER BY nom DESC;
+
+-----MAX MIN
+SELECT MIN(capacite)
+FROM salles;
+SELECT MAX(capacite)
+FROM salles;
+
